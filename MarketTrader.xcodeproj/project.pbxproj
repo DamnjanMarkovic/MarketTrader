@@ -12,6 +12,9 @@
 		66357E9626741A9B0040C07C /* CVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66357E9526741A9B0040C07C /* CVViewController.swift */; };
 		66357E9926741ABA0040C07C /* CVViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66357E9826741ABA0040C07C /* CVViewModel.swift */; };
 		66357E9C26741ADA0040C07C /* CVCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66357E9B26741ADA0040C07C /* CVCoordinator.swift */; };
+		66357EA0267423CC0040C07C /* MarketsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66357E9F267423CC0040C07C /* MarketsViewCell.swift */; };
+		66357EA326742A630040C07C /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66357EA226742A630040C07C /* NetworkingError.swift */; };
+		66357EA726742FC80040C07C /* CV Damnjan Markovic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 66357EA626742FC80040C07C /* CV Damnjan Markovic.pdf */; };
 		665A4F5D2673F6470005C1E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4F5C2673F6470005C1E4 /* AppDelegate.swift */; };
 		665A4F5F2673F6470005C1E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4F5E2673F6470005C1E4 /* SceneDelegate.swift */; };
 		665A4F662673F64D0005C1E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 665A4F652673F64D0005C1E4 /* Assets.xcassets */; };
@@ -30,6 +33,10 @@
 		665A4FC0267403C70005C1E4 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4FBF267403C70005C1E4 /* NewsViewController.swift */; };
 		665A4FC3267403D60005C1E4 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4FC2267403D60005C1E4 /* NewsViewModel.swift */; };
 		665A4FC6267408580005C1E4 /* AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4FC5267408580005C1E4 /* AutoLayout.swift */; };
+		66B754ED2674792E0062AE00 /* XMLParserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754EC2674792E0062AE00 /* XMLParserHelper.swift */; };
+		66B754F026747AE00062AE00 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754EF26747AE00062AE00 /* APIService.swift */; };
+		66B754F4267481DA0062AE00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754F3267481DA0062AE00 /* Constants.swift */; };
+		66B754F72674A53A0062AE00 /* MarketsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754F62674A53A0062AE00 /* MarketsHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +45,9 @@
 		66357E9526741A9B0040C07C /* CVViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVViewController.swift; sourceTree = "<group>"; };
 		66357E9826741ABA0040C07C /* CVViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVViewModel.swift; sourceTree = "<group>"; };
 		66357E9B26741ADA0040C07C /* CVCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVCoordinator.swift; sourceTree = "<group>"; };
+		66357E9F267423CC0040C07C /* MarketsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsViewCell.swift; sourceTree = "<group>"; };
+		66357EA226742A630040C07C /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
+		66357EA626742FC80040C07C /* CV Damnjan Markovic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "CV Damnjan Markovic.pdf"; sourceTree = "<group>"; };
 		665A4F592673F6470005C1E4 /* MarketTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarketTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		665A4F5C2673F6470005C1E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		665A4F5E2673F6470005C1E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +68,10 @@
 		665A4FBF267403C70005C1E4 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		665A4FC2267403D60005C1E4 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		665A4FC5267408580005C1E4 /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
+		66B754EC2674792E0062AE00 /* XMLParserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserHelper.swift; sourceTree = "<group>"; };
+		66B754EF26747AE00062AE00 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		66B754F3267481DA0062AE00 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		66B754F62674A53A0062AE00 /* MarketsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +93,14 @@
 			path = TabBarControllers;
 			sourceTree = "<group>";
 		};
+		66357EA526742FAA0040C07C /* PDF_File */ = {
+			isa = PBXGroup;
+			children = (
+				66357EA626742FC80040C07C /* CV Damnjan Markovic.pdf */,
+			);
+			path = PDF_File;
+			sourceTree = "<group>";
+		};
 		665A4F502673F6470005C1E4 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +120,7 @@
 		665A4F5B2673F6470005C1E4 /* MarketTrader */ = {
 			isa = PBXGroup;
 			children = (
+				66357EA526742FAA0040C07C /* PDF_File */,
 				66357E8B267414A50040C07C /* TabBarControllers */,
 				665A4F902673F9750005C1E4 /* Coordinators */,
 				665A4F8A2673F8F90005C1E4 /* Protocols */,
@@ -150,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				665A4FC5267408580005C1E4 /* AutoLayout.swift */,
+				66B754F3267481DA0062AE00 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -158,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				665A4F7B2673F7D60005C1E4 /* Singletone.swift */,
+				66B754EC2674792E0062AE00 /* XMLParserHelper.swift */,
+				66B754EF26747AE00062AE00 /* APIService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -176,6 +202,7 @@
 		665A4F792673F79E0005C1E4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				66357E9F267423CC0040C07C /* MarketsViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -183,6 +210,7 @@
 		665A4F7A2673F7A40005C1E4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				66B754F62674A53A0062AE00 /* MarketsHeaderView.swift */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -191,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				665A4F862673F8DE0005C1E4 /* Error.swift */,
+				66357EA226742A630040C07C /* NetworkingError.swift */,
 			);
 			path = ErrorHandling;
 			sourceTree = "<group>";
@@ -271,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66357EA726742FC80040C07C /* CV Damnjan Markovic.pdf in Resources */,
 				665A4F692673F64D0005C1E4 /* LaunchScreen.storyboard in Resources */,
 				665A4F662673F64D0005C1E4 /* Assets.xcassets in Resources */,
 			);
@@ -284,18 +314,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				665A4F8D2673F9120005C1E4 /* Coordinator.swift in Sources */,
+				66B754F026747AE00062AE00 /* APIService.swift in Sources */,
 				665A4FA02673FD250005C1E4 /* MarketsCoordinator.swift in Sources */,
 				66357E89267411C10040C07C /* MainTabBarController.swift in Sources */,
 				665A4FC6267408580005C1E4 /* AutoLayout.swift in Sources */,
 				665A4FB52673FFC90005C1E4 /* MainViewController.swift in Sources */,
 				66357E9626741A9B0040C07C /* CVViewController.swift in Sources */,
+				66B754F4267481DA0062AE00 /* Constants.swift in Sources */,
 				665A4F802673F8700005C1E4 /* Symbol.swift in Sources */,
 				665A4FBA267402C80005C1E4 /* MarketsViewController.swift in Sources */,
+				66B754F72674A53A0062AE00 /* MarketsHeaderView.swift in Sources */,
+				66B754ED2674792E0062AE00 /* XMLParserHelper.swift in Sources */,
 				665A4FBD267402F30005C1E4 /* MarketsViewModel.swift in Sources */,
 				66357E9926741ABA0040C07C /* CVViewModel.swift in Sources */,
+				66357EA0267423CC0040C07C /* MarketsViewCell.swift in Sources */,
 				665A4F5D2673F6470005C1E4 /* AppDelegate.swift in Sources */,
 				665A4FC3267403D60005C1E4 /* NewsViewModel.swift in Sources */,
 				665A4FB22673FF530005C1E4 /* MainCoordinator.swift in Sources */,
+				66357EA326742A630040C07C /* NetworkingError.swift in Sources */,
 				665A4F5F2673F6470005C1E4 /* SceneDelegate.swift in Sources */,
 				66357E9C26741ADA0040C07C /* CVCoordinator.swift in Sources */,
 				66357E8426740CD60040C07C /* NewsCoordinator.swift in Sources */,
