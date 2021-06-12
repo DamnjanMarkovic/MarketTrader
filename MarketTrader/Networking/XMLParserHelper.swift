@@ -28,12 +28,6 @@ class XMLParserHelper: NSObject, XMLParserDelegate {
         
     }
     
-    let simpleClosure:(String) -> (String) = { name in
-        
-        let greeting = "Hello, World! " + "Program"
-        return greeting
-    }
-
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
@@ -70,6 +64,19 @@ class XMLParserHelper: NSObject, XMLParserDelegate {
                 if let stringValue = attributeDict["volume"] {
                     if let doubleValue = Double(stringValue) {
                         tempQuote.volume = doubleValue;
+                    }
+                }
+                if let stringValue = attributeDict["dateTime"] {
+                    tempQuote.dateTime = DateTimeConverters.getTimeInDateTimeFormat(timeAsString: stringValue)
+                }
+                if let stringValue = attributeDict["change"] {
+                    if let doubleValue = Double(stringValue) {
+                        tempQuote.change = doubleValue;
+                    }
+                }
+                if let stringValue = attributeDict["changePercent"] {
+                    if let doubleValue = Double(stringValue) {
+                        tempQuote.changePercent = doubleValue;
                     }
                 }
             
@@ -117,7 +124,9 @@ class XMLParserHelper: NSObject, XMLParserDelegate {
             tempSymbol.bid = self.quote.bid;
             tempSymbol.ask = self.quote.ask;
             tempSymbol.volume = self.quote.volume;
-            
+            tempSymbol.dateTime = self.quote.dateTime;
+            tempSymbol.change = self.quote.change;
+            tempSymbol.changePercent = self.quote.changePercent;
             self.symbol.quote = tempSymbol
         }
         

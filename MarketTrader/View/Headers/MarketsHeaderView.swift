@@ -5,6 +5,7 @@
 //  Created by Damnjan Markovic on 12.6.21..
 //
 
+
 import UIKit
 
 class MarketsHeaderView: UITableViewHeaderFooterView {
@@ -14,22 +15,40 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
         view.clipsToBounds = true
         return view
     }()
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        configureContents()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func SetFormating(selectionFormatingOriginal: Bool) {
+
+        if selectionFormatingOriginal {
+            changePercentBidAskQuoteLabel.text = "Chg %"
+            lastHighLowQuoteLabel.text = "Last"
+        }
+        else {
+            changePercentBidAskQuoteLabel.text = "Bid"
+            lastHighLowQuoteLabel.text = "high"
+        }
+    }
     
     
-    let nameSymbolLabel: UILabel = {
-        let label = UILabel()
-        label.layer.cornerRadius = 2
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.textColor = Constants.FONTCOLORHEADER
-        label.lineBreakMode = .byWordWrapping
-        label.textAlignment = .left
-        label.backgroundColor = .clear
-        label.font = Constants.FONTSTYLEHEADER
-        label.text = "Name ↓ ↑"
-        label.layer.borderColor = UIColor.darkGray.cgColor
-        return label
+    let nameSymbolButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Name ↓ ↑", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
+        button.layer.cornerRadius = 5
+        return button
     }()
+    
+    
+    
     let changePercentBidAskQuoteLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
@@ -62,37 +81,30 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
     }()
     
 
-        override init(reuseIdentifier: String?) {
-            super.init(reuseIdentifier: reuseIdentifier)
-            configureContents()
-        }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     func configureContents() {
         
-        nameSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameSymbolButton.translatesAutoresizingMaskIntoConstraints = false
         changePercentBidAskQuoteLabel.translatesAutoresizingMaskIntoConstraints = false
         lastHighLowQuoteLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.addSubview(nameSymbolLabel)
+        contentView.addSubview(nameSymbolButton)
         contentView.addSubview(changePercentBidAskQuoteLabel)
         contentView.addSubview(lastHighLowQuoteLabel)
 
 
         NSLayoutConstraint.activate([
 
-            nameSymbolLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            nameSymbolLabel.widthAnchor.constraint(equalToConstant: 200),
-            nameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            nameSymbolLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameSymbolButton.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            nameSymbolButton.widthAnchor.constraint(equalToConstant: 200),
+            nameSymbolButton.heightAnchor.constraint(equalToConstant: 30),
+            nameSymbolButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
             
             
             changePercentBidAskQuoteLabel.heightAnchor.constraint(equalToConstant: 30),
-            changePercentBidAskQuoteLabel.leadingAnchor.constraint(equalTo: nameSymbolLabel.trailingAnchor,
+            changePercentBidAskQuoteLabel.leadingAnchor.constraint(equalTo: nameSymbolButton.trailingAnchor,
                constant: 10),
             changePercentBidAskQuoteLabel.widthAnchor.constraint(equalToConstant: 50),
 //            changePercentBidAskQuoteLabel.trailingAnchor.constraint(equalTo:

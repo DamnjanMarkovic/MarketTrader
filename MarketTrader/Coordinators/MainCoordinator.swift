@@ -22,30 +22,11 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         let vc = MainViewController()
         vc.coordinator = self;
         vc.modalPresentationStyle = .fullScreen
-//        vc.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 3)
         self.navigationController.pushViewController(vc, animated: true)
 
     }
     
     
-    
-//    func showMarketVC() {
-//        
-//        let child = MarketsCoordinator(navigationController: navigationController)
-//        child.parentCoordinator = self
-//        childCoordinators.append(child)
-//        child.start()
-//        
-//        
-//    }
-//
-//    func showNewsVC() {
-//        let child = NewsCoordinator(navigationController: navigationController)
-//        child.parentCoordinator = self
-//        childCoordinators.append(child)
-//        child.start()
-//
-//    }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         

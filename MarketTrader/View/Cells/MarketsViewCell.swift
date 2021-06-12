@@ -9,8 +9,6 @@ import UIKit
 
 class MarketsViewCell: UITableViewCell {
 
-
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureContents()
@@ -104,24 +102,6 @@ class MarketsViewCell: UITableViewCell {
     
     }
 
-//private func setupViews() {
-//    contentView.clipsToBounds = true
-//    contentView.layer.cornerRadius = 5
-////        contentView.backgroundColor = Constants.colorOriginalTalonCell
-//    contentView.addSubview(broj)
-//
-//}
-//
-//private func setupLayouts() {
-//    broj.layer.cornerRadius = 14
-//    broj.translatesAutoresizingMaskIntoConstraints = false
-//
-//    NSLayoutConstraint.activate([
-//        broj.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//        broj.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//        broj.topAnchor.constraint(equalTo: contentView.topAnchor),
-//        broj.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//    ])
 
 
 

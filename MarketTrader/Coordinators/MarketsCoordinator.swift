@@ -21,7 +21,6 @@ class MarketsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
     func start() {
         
         
-//        let vc = MarketsViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.tabBarItem = UITabBarItem(title: "Market", image: .actions, selectedImage: .checkmark)
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: Constants.IMAGEMARKETREFRESHBUTTON!.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(refreshList))
@@ -34,14 +33,18 @@ class MarketsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
     
     @objc func refreshList() {
         
-        vc.getMarketSymbols()
-            //change view
+        vc.marketViewModel.returnMarketSymbols() { success in
+            if success {
+                DispatchQueue.main.async {
+                    self.vc.tableView.reloadData()
+                }
+            }
+        }
 
     }
     @objc func changeViewFormatting() {
         
-            //refresh Data On User Request
-
+        self.vc.presentFormatingSelectionMenu()
     }
     
 }

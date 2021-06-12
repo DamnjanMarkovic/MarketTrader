@@ -7,9 +7,17 @@
 
 import Foundation
 
-final class Singletone {
-    
-    static let Instance = Singletone()
 
+final class Singletone: NSObject {
+    
+    static let sharedInstance = Singletone()
+   
+    private override init() { }
+}
+
+extension Singletone {
+    
+    static var symbolsList: [Symbol]?
+    
     
 }
