@@ -7,7 +7,7 @@
 
 import Foundation
 
-class XMLParserHelper: NSObject, XMLParserDelegate {
+class XMLParserSymbolMarket: NSObject, XMLParserDelegate {
     
     var symbolList = [Symbol]()
     var symbol = Symbol()
@@ -135,14 +135,12 @@ class XMLParserHelper: NSObject, XMLParserDelegate {
 
                 self.symbolList.append(self.symbol);
             }
-            self.foundCharacters = ""
         
     }
 
     // 3
     func parser(_ parser: XMLParser, foundCharacters string: String) {
 
-        self.foundCharacters += string;
     }
     
     

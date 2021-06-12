@@ -52,19 +52,15 @@ class MarketsViewController: UIViewController, UIPopoverPresentationControllerDe
         
 
     }
-    
-    func RefreshTable(symbolList: [Symbol]) {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.configureTableView()
-        }
-    }
 
     
     func getMarketSymbols() {
         marketViewModel.returnMarketSymbols() { [self] success in
             if success {
-                self.RefreshTable(symbolList: symbolList)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.configureTableView()
+                }
             }
         }
     }

@@ -40,7 +40,6 @@ class MarketsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
                 }
             }
         }
-
     }
     @objc func changeViewFormatting() {
         

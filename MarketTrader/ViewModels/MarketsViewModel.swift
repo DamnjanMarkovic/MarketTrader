@@ -14,7 +14,7 @@ protocol MarketsDelegate {
 }
 
 
-class MarketsViewModel: NSObject, XMLParserDelegate {
+class MarketsViewModel: NSObject {
 
     var delegate: MarketsDelegate?
     var symbolList = [Symbol]()
@@ -46,11 +46,6 @@ class MarketsViewModel: NSObject, XMLParserDelegate {
         }
     }
     
-    func symbolDetailsVCSelected(symbolSelected: Symbol) {
-        
-    }
-    
-
     
     
     func returnMarketSymbols(completition: @escaping ((_ success: Bool) -> ())) {
@@ -72,7 +67,7 @@ class MarketsViewModel: NSObject, XMLParserDelegate {
                     print(error.localizedDescription)
                     
                 case .success(let unwrappedData):
-                    let xmlParserHelper = XMLParserHelper()
+                    let xmlParserHelper = XMLParserSymbolMarket()
                     DispatchQueue.main.async { [self] in
                     xmlParserHelper.unwrapSymbolList(unwrappedData) { (symbolListArrived) in
                         

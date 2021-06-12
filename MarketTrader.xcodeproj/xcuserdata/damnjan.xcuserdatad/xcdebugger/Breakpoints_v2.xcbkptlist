@@ -87,22 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A80D60F9-0F07-45B9-B504-CC4C2831F2C6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MarketTrader/Networking/APIService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "getMarketSymbols(of:from:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E93A2E4C-F1B3-44DD-ADE6-DC740B16BC30"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -158,8 +142,8 @@
             filePath = "MarketTrader/View/ViewControllers/MarketsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -194,6 +178,70 @@
             endingLineNumber = "38"
             landmarkName = "openVC()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6B090F1B-DE3F-445B-9CA8-1EACC9069F27"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MarketTrader/View/ViewControllers/NewsDetailsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "willTransition(to:with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6B090F1B-DE3F-445B-9CA8-1EACC9069F27 - 9314f5f517bf7fde"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MarketTrader.NewsDetailsViewController.willTransition(to: __C.UITraitCollection, with: __C.UIViewControllerTransitionCoordinator) -&gt; ()"
+                  moduleName = "MarketTrader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/damnjan/Documents/TeleTrader/MarketTrader/MarketTrader/View/ViewControllers/NewsDetailsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "161">
+               </Location>
+               <Location
+                  uuid = "6B090F1B-DE3F-445B-9CA8-1EACC9069F27 - c504bce034ddb9d6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.UIViewControllerTransitionCoordinatorContext) -&gt; () in MarketTrader.NewsDetailsViewController.willTransition(to: __C.UITraitCollection, with: __C.UIViewControllerTransitionCoordinator) -&gt; ()"
+                  moduleName = "MarketTrader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/damnjan/Documents/TeleTrader/MarketTrader/MarketTrader/View/ViewControllers/NewsDetailsViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "103">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2CE0F8C8-2F09-4E2A-A14D-B375C9FF067F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MarketTrader/View/ViewControllers/NewsDetailsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "windowInterfaceOrientation"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

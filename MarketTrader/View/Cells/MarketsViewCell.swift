@@ -111,10 +111,5 @@ class MarketsViewCell: UITableViewCell {
 required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
 }
-
-//func setup(with brojPristigao : Int) {
-//    broj.layer.borderColor = Constants.randomColor().cgColor
-//    broj.text = "\(brojPristigao)"
-
     
 }
