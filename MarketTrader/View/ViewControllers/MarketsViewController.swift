@@ -25,13 +25,15 @@ extension MarketsViewController: MarketsDelegate {
 }
 
 
-class MarketsViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class MarketsViewController: UIViewController, UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate {
     
     var symbolList = [Symbol]()
+    var selectedSymbol = Symbol()
     weak var coordinator: MarketsCoordinator?
     var marketViewModel: MarketsViewModel = MarketsViewModel()
     var buttonSymbolName = UIButton()
     var selectionFormatingOriginal = true
+    let libraryVC = NameOrderPopover()
     
     private let tableStackView: UIStackView = {
         let view = UIStackView()
@@ -66,7 +68,7 @@ class MarketsViewController: UIViewController, UIPopoverPresentationControllerDe
             }
         }
     }
-    let libraryVC = NameOrderPopover()
+    
     @objc func lineUpList() {
         
         libraryVC.symbolsDefault.addTarget(self, action: #selector(GetVIewModelToSortTheList), for: .touchUpInside)
@@ -189,23 +191,13 @@ class MarketsViewController: UIViewController, UIPopoverPresentationControllerDe
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             tableView.deselectRow(at: indexPath, animated: true)
             
-//            let koloKliknuto = narednaKola[indexPath.row]
-//
-//            ///provera  da li je vreme za uplatu isteklo, ona ce omoguciti izbor polja. Ako je vreme isteklo, ne moze se ici na biranje
-//
-//            if koloKliknuto.drawTime > Double(TimeFunctions.vratiVremeSada()) {
-//                Singletone.Instanca.koloKliknuto = koloKliknuto
-//
-//                let talonVC = Talon()
-//                let navController = UINavigationController(rootViewController: talonVC)
-//                navController.modalPresentationStyle = .overFullScreen
-//                self.present(navController, animated: false)
-//            }
-//            else {
-//                let ac = UIAlertController(title: "Jbg, vreme je isteklo.", message: nil, preferredStyle: .alert)
-//                ac.addAction(UIAlertAction(title: "OK, sta da se radi", style: .default, handler: nil))
-//                self.present(ac, animated: true)
-//            }
+            let symbolSelected = symbolList[indexPath.row]
+            
+            let vc = SymbolDetailsViewController()
+            vc.symbolSelected = symbolSelected
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController!.pushViewController(vc, animated: true)
+            
             
         }
 

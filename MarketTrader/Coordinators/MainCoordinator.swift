@@ -47,6 +47,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         if let cvViewController = fromViewController as? CVViewController {
             childDidFinish(cvViewController.coordinator)
         }
+
     }
     
     func childDidFinish(_ child: Coordinator?) {

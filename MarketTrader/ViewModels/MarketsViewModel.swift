@@ -18,8 +18,6 @@ class MarketsViewModel: NSObject, XMLParserDelegate {
 
     var delegate: MarketsDelegate?
     var symbolList = [Symbol]()
-
-    
     
     override init() {
         super.init()
@@ -46,6 +44,10 @@ class MarketsViewModel: NSObject, XMLParserDelegate {
         default:
             print("")
         }
+    }
+    
+    func symbolDetailsVCSelected(symbolSelected: Symbol) {
+        
     }
     
 

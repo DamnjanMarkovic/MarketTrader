@@ -36,6 +36,8 @@
 		665A4FC6267408580005C1E4 /* AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A4FC5267408580005C1E4 /* AutoLayout.swift */; };
 		665C0D9D2674E44B008C0E96 /* NameOrderPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C0D9C2674E44B008C0E96 /* NameOrderPopover.swift */; };
 		665C0DA12674EA13008C0E96 /* SortingSelectionEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C0DA02674EA13008C0E96 /* SortingSelectionEnum.swift */; };
+		665C0DA72674FE9D008C0E96 /* SymbolDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C0DA62674FE9D008C0E96 /* SymbolDetailsViewController.swift */; };
+		665C0DAA267502C3008C0E96 /* SymbolDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665C0DA9267502C3008C0E96 /* SymbolDetailsViewModel.swift */; };
 		66B754ED2674792E0062AE00 /* XMLParserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754EC2674792E0062AE00 /* XMLParserHelper.swift */; };
 		66B754F026747AE00062AE00 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754EF26747AE00062AE00 /* APIService.swift */; };
 		66B754F4267481DA0062AE00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B754F3267481DA0062AE00 /* Constants.swift */; };
@@ -74,6 +76,8 @@
 		665A4FC5267408580005C1E4 /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
 		665C0D9C2674E44B008C0E96 /* NameOrderPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameOrderPopover.swift; sourceTree = "<group>"; };
 		665C0DA02674EA13008C0E96 /* SortingSelectionEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingSelectionEnum.swift; sourceTree = "<group>"; };
+		665C0DA62674FE9D008C0E96 /* SymbolDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolDetailsViewController.swift; sourceTree = "<group>"; };
+		665C0DA9267502C3008C0E96 /* SymbolDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolDetailsViewModel.swift; sourceTree = "<group>"; };
 		66B754EC2674792E0062AE00 /* XMLParserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserHelper.swift; sourceTree = "<group>"; };
 		66B754EF26747AE00062AE00 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		66B754F3267481DA0062AE00 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				665A4FBC267402F30005C1E4 /* MarketsViewModel.swift */,
 				665A4FC2267403D60005C1E4 /* NewsViewModel.swift */,
 				66357E9826741ABA0040C07C /* CVViewModel.swift */,
+				665C0DA9267502C3008C0E96 /* SymbolDetailsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 				665A4FBF267403C70005C1E4 /* NewsViewController.swift */,
 				66357E9526741A9B0040C07C /* CVViewController.swift */,
 				665C0D9C2674E44B008C0E96 /* NameOrderPopover.swift */,
+				665C0DA62674FE9D008C0E96 /* SymbolDetailsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 				66B754F026747AE00062AE00 /* APIService.swift in Sources */,
 				665A4FA02673FD250005C1E4 /* MarketsCoordinator.swift in Sources */,
 				66357E89267411C10040C07C /* MainTabBarController.swift in Sources */,
+				665C0DA72674FE9D008C0E96 /* SymbolDetailsViewController.swift in Sources */,
 				665A4FC6267408580005C1E4 /* AutoLayout.swift in Sources */,
 				665A4FB52673FFC90005C1E4 /* MainViewController.swift in Sources */,
 				66357E9626741A9B0040C07C /* CVViewController.swift in Sources */,
@@ -360,6 +367,7 @@
 				665C0D9D2674E44B008C0E96 /* NameOrderPopover.swift in Sources */,
 				665A4F7C2673F7D60005C1E4 /* Singletone.swift in Sources */,
 				665A4F9D2673FBCD0005C1E4 /* MainViewModel.swift in Sources */,
+				665C0DAA267502C3008C0E96 /* SymbolDetailsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

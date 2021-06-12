@@ -13,7 +13,7 @@ class MarketsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     let vc = MarketsViewController()
-
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }

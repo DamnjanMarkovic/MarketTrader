@@ -12,6 +12,7 @@ struct Constants {
     static let MARKET_CELL_IDENTIFIER = "MarketCellIdentifier"
     static let MARKET_HEADER_IDENTIFIER = "MarketHeaderIdentifier"
     
+    static let SYMBOLDETAILS_CELL_IDENTIFIER = "SymbolDetailsCellIdentifier"
     
     static let COLORDARKBLUE = UIColor(red: (21/255.0), green: (42/255.0), blue: (175/255.0), alpha: 1.0)
     
