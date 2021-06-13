@@ -1,5 +1,5 @@
 //
-//  MarketsHeaderView.swift
+//  SymbolHeaderView.swift
 //  MarketTrader
 //
 //  Created by Damnjan Markovic on 12.6.21..
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MarketsHeaderView: UITableViewHeaderFooterView {
+class SymbolHeaderView: UITableViewHeaderFooterView {
 
     var containerView: UIView = {
         let view = UIView()
@@ -33,7 +33,7 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
         }
         else {
             changePercentBidAskQuoteLabel.text = "Bid"
-            lastHighLowQuoteLabel.text = "high"
+            lastHighLowQuoteLabel.text = "High"
         }
     }
     
@@ -41,8 +41,7 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
     let nameSymbolButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Name ↓ ↑", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
+        button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 5
         return button
     }()
@@ -54,12 +53,11 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
         label.adjustsFontSizeToFitWidth = true
         label.layer.cornerRadius = 2
         label.textColor = Constants.FONTCOLORHEADER
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.backgroundColor = .clear
         label.text =  "Chg %"
         label.lineBreakMode = .byWordWrapping
         label.font = Constants.FONTSTYLEHEADER
-        label.textAlignment = .center
         label.layer.borderColor = UIColor.darkGray.cgColor
         label.numberOfLines = 0
         return label
@@ -74,7 +72,6 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
         label.text =  "Last"
         label.lineBreakMode = .byWordWrapping
         label.font = Constants.FONTSTYLEHEADER
-        label.textAlignment = .center
         label.layer.borderColor = UIColor.darkGray.cgColor
         label.numberOfLines = 0
         return label
@@ -97,7 +94,6 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
         NSLayoutConstraint.activate([
 
             nameSymbolButton.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            nameSymbolButton.widthAnchor.constraint(equalToConstant: 200),
             nameSymbolButton.heightAnchor.constraint(equalToConstant: 30),
             nameSymbolButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
@@ -105,21 +101,17 @@ class MarketsHeaderView: UITableViewHeaderFooterView {
             
             changePercentBidAskQuoteLabel.heightAnchor.constraint(equalToConstant: 30),
             changePercentBidAskQuoteLabel.leadingAnchor.constraint(equalTo: nameSymbolButton.trailingAnchor,
-               constant: 10),
-            changePercentBidAskQuoteLabel.widthAnchor.constraint(equalToConstant: 50),
-//            changePercentBidAskQuoteLabel.trailingAnchor.constraint(equalTo:
-//               contentView.layoutMarginsGuide.trailingAnchor),
+               constant: 5),
+            changePercentBidAskQuoteLabel.widthAnchor.constraint(equalToConstant: 70),
             changePercentBidAskQuoteLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             
             
             lastHighLowQuoteLabel.heightAnchor.constraint(equalToConstant: 30),
             lastHighLowQuoteLabel.leadingAnchor.constraint(equalTo: changePercentBidAskQuoteLabel.trailingAnchor,
-               constant: 10),
+               constant: 5),
             lastHighLowQuoteLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-//            lastHighLowQuoteLabel.widthAnchor.constraint(equalToConstant: 25),
-//            lastHighLowQuoteLabel.trailingAnchor.constraint(equalTo:
-//               contentView.layoutMarginsGuide.trailingAnchor),
+            lastHighLowQuoteLabel.widthAnchor.constraint(equalToConstant: 70),
             lastHighLowQuoteLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     

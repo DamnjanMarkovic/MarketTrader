@@ -7,13 +7,13 @@
 
 import UIKit
 
-class NameOrderPopover: UIViewController, UIPopoverPresentationControllerDelegate {
+class SortSymbolsVC: UIViewController, UIPopoverPresentationControllerDelegate {
     
     
     let symbolsAlphabetically: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Alphabetically", for: .normal)
-        button.tag = SortingSelection.Alphabetically.hashValue
+        button.tag = SortingSelection.Alphabetically.rawValue
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.black
         button.layer.cornerRadius = 5
@@ -23,7 +23,7 @@ class NameOrderPopover: UIViewController, UIPopoverPresentationControllerDelegat
     let symbolsNonAlphabetically: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("NON Alphabetically", for: .normal)
-        button.tag = SortingSelection.NONAlphabetically.hashValue
+        button.tag = SortingSelection.NONAlphabetically.rawValue
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.black
         button.layer.cornerRadius = 5
@@ -33,7 +33,7 @@ class NameOrderPopover: UIViewController, UIPopoverPresentationControllerDelegat
     let symbolsDefault: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Default sorting", for: .normal)
-        button.tag = SortingSelection.Default.hashValue
+        button.tag = SortingSelection.Default.rawValue
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.black
         button.layer.cornerRadius = 5

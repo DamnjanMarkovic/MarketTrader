@@ -7,11 +7,20 @@
 
 import UIKit
 
-class SymbolDetailsViewController: UIViewController {
-
-
-    var symbolSelected = Symbol()
+extension SymbolDetailsViewController: SymbolDetailsDelegate {
     
+    func returnMarketSymbolsProtocolFunc(symbolList: [Symbol]) {
+
+    }
+
+}
+
+class SymbolDetailsViewController: UIViewController {
+    
+    var symbolSelected = Symbol()
+    var symbolDetailsViewModel: SymbolDetailsViewModel = SymbolDetailsViewModel()
+    
+    var scrollViewer = UIScrollView()
     var idSymbolLabel = UILabel ()
     var nameSymbolLabel = UILabel ()
     var tickerSymbolSymbolLabel = UILabel ()
@@ -36,19 +45,41 @@ class SymbolDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.title = symbolSelected.name
         self.view.backgroundColor = .white
+        symbolDetailsViewModel.delegate = self
+
+    }
+    
+    let labelOne: UILabel = {
+         let label = UILabel()
+         label.text = "Scroll Top"
+         label.backgroundColor = .red
+         label.translatesAutoresizingMaskIntoConstraints = false
+         return label
+     }()
+    
+}
+
+
+extension SymbolDetailsViewController {
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         createAllLabels()
         configureContents()
     }
     
     
+
+    
     func CreateLabel(name: String) -> UILabel {
         let label = UILabel()
-        label.layer.cornerRadius = 6
-        label.layer.borderWidth = 2
-        label.layer.borderColor = UIColor.blue.cgColor
+        label.layer.cornerRadius = 4
+        label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.gray.cgColor
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.textColor = Constants.FONTCOLORHEADER
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .left
         label.backgroundColor = .clear
@@ -59,166 +90,140 @@ class SymbolDetailsViewController: UIViewController {
     }
     
     func createAllLabels() {
-        idSymbolLabel = CreateLabel(name: "\tID:\t\(symbolSelected.id)")
-        nameSymbolLabel = CreateLabel(name: "\tName:\t\(symbolSelected.name)")
-        tickerSymbolSymbolLabel = CreateLabel(name: "\tTickerSymbol:\t\(symbolSelected.tickerSymbol)")
-        isinSymbolLabel = CreateLabel(name: "\tIsin:\t\(symbolSelected.isin)")
-        currencySymbolLabel = CreateLabel(name: "\tCurrency:\t\(symbolSelected.currency)")
-        stockExchangeNameSymbolLabel = CreateLabel(name: "\tStockExchangeName:\t\(symbolSelected.stockExchangeName)")
-        decorativeNameSymbolLabel = CreateLabel(name: "\tDecorativeName:\t\(symbolSelected.decorativeName)")
-        lastSymbolLabel = CreateLabel(name: "\tLast:\t\(symbolSelected.quote.last)")
-        highSymbolLabel = CreateLabel(name: "\tHigh:\t\(symbolSelected.quote.high)")
-        lowSymbolSymbolLabel = CreateLabel(name: "\tLow:\t\(symbolSelected.quote.low)")
-        volumeSymbolLabel = CreateLabel(name: "\tVolume:\t\(symbolSelected.quote.volume)")
-        dateTimeSymbolLabel = CreateLabel(name: "\tDateTime:\t\(symbolSelected.quote.dateTime)")
-        changeSymbolLabel = CreateLabel(name: "\tChange:\t\(symbolSelected.quote.change)")
-        changePercentSymbolLabel = CreateLabel(name: "\tChangePercent:\t\(symbolSelected.quote.changePercent)")
+        idSymbolLabel = CreateLabel(name: "  ID:\t\(symbolSelected.id)")
+        tickerSymbolSymbolLabel = CreateLabel(name: "  TickerSymbol:\t\(symbolSelected.tickerSymbol)")
+        isinSymbolLabel = CreateLabel(name: "  Isin:\t\(symbolSelected.isin)")
+        currencySymbolLabel = CreateLabel(name: "  Currency:\t\(symbolSelected.currency)")
+        stockExchangeNameSymbolLabel = CreateLabel(name: "  StockExchangeName:\t\(symbolSelected.stockExchangeName)")
+        decorativeNameSymbolLabel = CreateLabel(name: "  DecorativeName:\t\(symbolSelected.decorativeName)")
+        lastSymbolLabel = CreateLabel(name: "  Last:\t\(symbolSelected.quote.last)")
+        highSymbolLabel = CreateLabel(name: "  High:\t\(symbolSelected.quote.high)")
+        lowSymbolSymbolLabel = CreateLabel(name: "  Low:\t\(symbolSelected.quote.low)")
+        volumeSymbolLabel = CreateLabel(name: "  Volume:\t\(symbolSelected.quote.volume)")
+        dateTimeSymbolLabel = CreateLabel(name: "  DateTime:\t\(symbolSelected.quote.dateTime)")
         
+        changeSymbolLabel = CreateLabel(name: "  Change:\t\(symbolSelected.quote.change)")
+        changeSymbolLabel = SetValueColor(label: changeSymbolLabel, arrivedValue: symbolSelected.quote.change)
         
-        changeSymbolLabel.textColor = returnFontColor(value: symbolSelected.quote.change)
-        changePercentSymbolLabel.textColor = returnFontColor(value: symbolSelected.quote.changePercent)
+        changePercentSymbolLabel = CreateLabel(name: "  ChangePercent:\t\(symbolSelected.quote.changePercent)")
+        changePercentSymbolLabel = SetValueColor(label: changePercentSymbolLabel, arrivedValue: symbolSelected.quote.changePercent)
         
     }
     
-    
-    func returnFontColor(value: Double) -> UIColor {
+    func SetValueColor(label: UILabel, arrivedValue: Double) -> UILabel {
         
-        if value > 0 {
-            return .green
+        var finalColor = Constants.FONTCOLORHEADER
+        
+        if arrivedValue > 0 {
+            finalColor = .green
         }
-        else if ( value == 0) {
-            return Constants.FONTCOLORHEADER
+        else if ( arrivedValue < 0) {
+            finalColor = .red
         }
-        else {
-            return .red
-        }
+        
+        let range = (label.text! as NSString).range(of: "\(arrivedValue)")
+        let mutableAttributedString = NSMutableAttributedString.init(string: label.text!)
+        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: finalColor, range: range)
+
+        label.attributedText = mutableAttributedString
+        return label
     }
-}
+    
 
-
-extension SymbolDetailsViewController {
     
     func configureContents() {
+        scrollViewer.translatesAutoresizingMaskIntoConstraints = false
+        scrollViewer.bounds = view.bounds
+        self.view.addSubview(scrollViewer)
+        let widthLabel = view.frame.width - 30
+
+        scrollViewer.addSubview(idSymbolLabel)
+        scrollViewer.addSubview(tickerSymbolSymbolLabel)
+        scrollViewer.addSubview(isinSymbolLabel)
+        scrollViewer.addSubview(currencySymbolLabel)
+        scrollViewer.addSubview(stockExchangeNameSymbolLabel)
+        scrollViewer.addSubview(decorativeNameSymbolLabel)
+        scrollViewer.addSubview(lastSymbolLabel)
+        scrollViewer.addSubview(highSymbolLabel)
+        scrollViewer.addSubview(lowSymbolSymbolLabel)
+        scrollViewer.addSubview(volumeSymbolLabel)
+        scrollViewer.addSubview(dateTimeSymbolLabel)
+        scrollViewer.addSubview(changeSymbolLabel)
+        scrollViewer.addSubview(changePercentSymbolLabel)
         
-        idSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        tickerSymbolSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        isinSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        currencySymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        stockExchangeNameSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        decorativeNameSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        lastSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        highSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        lowSymbolSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        volumeSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateTimeSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        changeSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-        changePercentSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        self.view.addSubview(idSymbolLabel)
-        self.view.addSubview(nameSymbolLabel)
-        self.view.addSubview(tickerSymbolSymbolLabel)
-        self.view.addSubview(isinSymbolLabel)
-        self.view.addSubview(currencySymbolLabel)
-        self.view.addSubview(stockExchangeNameSymbolLabel)
-        self.view.addSubview(decorativeNameSymbolLabel)
-        self.view.addSubview(lastSymbolLabel)
-        self.view.addSubview(highSymbolLabel)
-        self.view.addSubview(lowSymbolSymbolLabel)
-        self.view.addSubview(volumeSymbolLabel)
-        self.view.addSubview(dateTimeSymbolLabel)
-        self.view.addSubview(changeSymbolLabel)
-        self.view.addSubview(changePercentSymbolLabel)
-
-
         NSLayoutConstraint.activate([
 
-            idSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            idSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
+            scrollViewer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0),
+            scrollViewer.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            scrollViewer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0),
+            scrollViewer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8.0),
+            
+            idSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            idSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
             idSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            idSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            idSymbolLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70),
+            idSymbolLabel.topAnchor.constraint(equalTo: scrollViewer.topAnchor, constant: 10),
 
-            nameSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            nameSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            nameSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            nameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            nameSymbolLabel.topAnchor.constraint(equalTo: idSymbolLabel.bottomAnchor, constant: 10),
-            
-            tickerSymbolSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            tickerSymbolSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            tickerSymbolSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            tickerSymbolSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            tickerSymbolSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
             tickerSymbolSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            tickerSymbolSymbolLabel.topAnchor.constraint(equalTo: nameSymbolLabel.bottomAnchor, constant: 10),
-            
-            isinSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            isinSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            isinSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            isinSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            isinSymbolLabel.topAnchor.constraint(equalTo: tickerSymbolSymbolLabel.bottomAnchor, constant: 10),
-            
-            currencySymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            currencySymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            currencySymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            currencySymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            currencySymbolLabel.topAnchor.constraint(equalTo: isinSymbolLabel.bottomAnchor, constant: 10),
-            
-            stockExchangeNameSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            stockExchangeNameSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            stockExchangeNameSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            stockExchangeNameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            stockExchangeNameSymbolLabel.topAnchor.constraint(equalTo: currencySymbolLabel.bottomAnchor, constant: 10),
-            
-            decorativeNameSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            decorativeNameSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            decorativeNameSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            decorativeNameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            decorativeNameSymbolLabel.topAnchor.constraint(equalTo: stockExchangeNameSymbolLabel.bottomAnchor, constant: 10),
-            
-            lastSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            lastSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            lastSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            lastSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            lastSymbolLabel.topAnchor.constraint(equalTo: decorativeNameSymbolLabel.bottomAnchor, constant: 10),
-            
-            highSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            highSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            highSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            highSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            highSymbolLabel.topAnchor.constraint(equalTo: lastSymbolLabel.bottomAnchor, constant: 10),
-            
-            lowSymbolSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            lowSymbolSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            lowSymbolSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            lowSymbolSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            lowSymbolSymbolLabel.topAnchor.constraint(equalTo: highSymbolLabel.bottomAnchor, constant: 10),
-            
-            volumeSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            volumeSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            volumeSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            volumeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            volumeSymbolLabel.topAnchor.constraint(equalTo: lowSymbolSymbolLabel.bottomAnchor, constant: 10),
-            
-            dateTimeSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            dateTimeSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            dateTimeSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            dateTimeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            dateTimeSymbolLabel.topAnchor.constraint(equalTo: volumeSymbolLabel.bottomAnchor, constant: 10),
-            
-            changeSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            changeSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            changeSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            changeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            changeSymbolLabel.topAnchor.constraint(equalTo: dateTimeSymbolLabel.bottomAnchor, constant: 10),
-            
-            changePercentSymbolLabel.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            changePercentSymbolLabel.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            changePercentSymbolLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
-            changePercentSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            changePercentSymbolLabel.topAnchor.constraint(equalTo: changeSymbolLabel.bottomAnchor, constant: 10),
-            
-        ])
-    
-    }
+            tickerSymbolSymbolLabel.topAnchor.constraint(equalTo: idSymbolLabel.bottomAnchor, constant: 5),
 
+            isinSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            isinSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            isinSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            isinSymbolLabel.topAnchor.constraint(equalTo: tickerSymbolSymbolLabel.bottomAnchor, constant: 5),
+
+            currencySymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            currencySymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            currencySymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            currencySymbolLabel.topAnchor.constraint(equalTo: isinSymbolLabel.bottomAnchor, constant: 5),
+
+            stockExchangeNameSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            stockExchangeNameSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            stockExchangeNameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            stockExchangeNameSymbolLabel.topAnchor.constraint(equalTo: currencySymbolLabel.bottomAnchor, constant: 5),
+
+            decorativeNameSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            decorativeNameSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            decorativeNameSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            decorativeNameSymbolLabel.topAnchor.constraint(equalTo: stockExchangeNameSymbolLabel.bottomAnchor, constant: 5),
+
+            lastSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            lastSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            lastSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            lastSymbolLabel.topAnchor.constraint(equalTo: decorativeNameSymbolLabel.bottomAnchor, constant: 5),
+
+            highSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            highSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            highSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            highSymbolLabel.topAnchor.constraint(equalTo: lastSymbolLabel.bottomAnchor, constant: 5),
+
+            lowSymbolSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            lowSymbolSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            lowSymbolSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            lowSymbolSymbolLabel.topAnchor.constraint(equalTo: highSymbolLabel.bottomAnchor, constant: 5),
+
+            volumeSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            volumeSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            volumeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            volumeSymbolLabel.topAnchor.constraint(equalTo: lowSymbolSymbolLabel.bottomAnchor, constant: 5),
+
+            dateTimeSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            dateTimeSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            dateTimeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            dateTimeSymbolLabel.topAnchor.constraint(equalTo: volumeSymbolLabel.bottomAnchor, constant: 5),
+
+            changeSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            changeSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            changeSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            changeSymbolLabel.topAnchor.constraint(equalTo: dateTimeSymbolLabel.bottomAnchor, constant: 5),
+
+            changePercentSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            changePercentSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            changePercentSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            changePercentSymbolLabel.topAnchor.constraint(equalTo: changeSymbolLabel.bottomAnchor, constant: 5),
+            changePercentSymbolLabel.bottomAnchor.constraint(equalTo: scrollViewer.bottomAnchor, constant: -5),
+
+        ])
+    }
 }

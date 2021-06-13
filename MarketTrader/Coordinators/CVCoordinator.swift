@@ -21,7 +21,7 @@ class CVCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         
         let vc = CVViewController()
         vc.modalPresentationStyle = .fullScreen
-        vc.tabBarItem = UITabBarItem(title: "CV", image: .actions, selectedImage: .checkmark)
+        vc.tabBarItem = UITabBarItem(title: "CV", image: Constants.TAB_CV, selectedImage: Constants.TAB_CV_CHECKED)
         navigationController.pushViewController(vc, animated: true)
 
     }

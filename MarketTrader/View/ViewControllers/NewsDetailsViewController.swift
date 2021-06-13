@@ -17,6 +17,7 @@ class NewsDetailsViewController: UIViewController {
         self.view.backgroundColor = .white
         self.title = newsSelected.headline
         configureContents()
+        SetContentElementSize()
         
         let imageLink = "\(Constants.IMAGESLINK)\(newsSelected.imageID)\(Constants.MIDDLEIMAGESIZE)"
         textOverImage(imageLocation: imageLink)
@@ -30,10 +31,11 @@ class NewsDetailsViewController: UIViewController {
                 guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
                 
                 if windowInterfaceOrientation.isLandscape {
-                    
+                    SetImageOverFullScreen()
                     textOverImage(imageLocation: "\(Constants.IMAGESLINK)\(self.newsSelected.imageID)\(Constants.BIGIMAGESIZE)")
                     
                 } else {
+                    SetContentElementSize()
                     textOverImage(imageLocation: "\(Constants.IMAGESLINK)\(self.newsSelected.imageID)\(Constants.MIDDLEIMAGESIZE)")
                 }
             })
@@ -42,9 +44,6 @@ class NewsDetailsViewController: UIViewController {
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
         return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
-    
-    
-    
     
     
     let imageView: UIImageView = {
@@ -96,23 +95,41 @@ class NewsDetailsViewController: UIViewController {
 
         view.addSubview(imageView)
         view.addSubview(headlineLabel)
-
-
+    }
+    
+    func SetContentElementSize() {
+        
+        headlineLabel.text = newsSelected.headline
         NSLayoutConstraint.activate([
 
             imageView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 5),
+            imageView.heightAnchor.constraint(equalToConstant: view.frame.height/2),
 
+            headlineLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             headlineLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             headlineLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            headlineLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            headlineLabel.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 10),
          
         ])
-    
     }
     
+    func SetImageOverFullScreen() {
+        
+        headlineLabel.text = ""
+        
+        NSLayoutConstraint.activate([
+
+            imageView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 5),
+            imageView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
+
+
+         
+        ])
+    }
     
 
 

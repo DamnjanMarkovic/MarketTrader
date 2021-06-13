@@ -9,13 +9,14 @@ import UIKit
 
 class NewsViewCell: UICollectionViewCell {
     
+    var news: NewsArticle?
+    
+    
     let imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
-        imageView.layer.borderColor = UIColor.darkGray.cgColor
-        imageView.layer.borderWidth = 1
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     
@@ -37,38 +38,22 @@ class NewsViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureContents()
-        self.backgroundColor = .blue
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        // Configure the view for the selected state
-    
+
     
     func setup(with news: NewsArticle) {
-        
+        headlineLabel.text = news.headline
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        headlineLabel.translatesAutoresizingMaskIntoConstraints = false
         let imageLink = "\(Constants.IMAGESLINK)\(news.imageID)\(Constants.SMALLIMAGESIZE)"
         imageView.loadImage(with: imageLink)
         imageView.contentMode = .scaleAspectFit
-        self.headlineLabel.text = news.headline
-        imageView.drawOnCurrentImage(view: headlineLabel, mode: .changeOriginalImage) { (parentSize, viewToAdd) in
-            
-            viewToAdd.font = UIFont.systemFont(ofSize: 18)
-            viewToAdd.textColor = .red
-            viewToAdd.textAlignment = .center
-            viewToAdd.backgroundColor = .white
-            viewToAdd.frame = CGRect(x: 40, y: 40, width: 200, height: 20)
-        
-        }
-    }
-    
-    
-    func configureContents() {
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        headlineLabel.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(imageView)
         contentView.addSubview(headlineLabel)
@@ -76,16 +61,22 @@ class NewsViewCell: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
 
-            imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-
             headlineLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            headlineLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            headlineLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            headlineLabel.widthAnchor.constraint(equalToConstant: contentView.frame.width/4-10),
+            headlineLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 10),
+            headlineLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: 10),
+            headlineLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            imageView.leadingAnchor.constraint(equalTo: headlineLabel.trailingAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 10),
+            imageView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: 10),
+            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: 2),
+            
          
         ])
-    
+        
     }
+    
+   
 }

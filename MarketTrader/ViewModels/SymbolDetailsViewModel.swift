@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol SymbolDetailsDelegate {
+    
+    func returnMarketSymbolsProtocolFunc(symbolList: [Symbol])
+    
+}
 class SymbolDetailsViewModel {
     
+    var delegate: SymbolDetailsDelegate?
     
-    
-    
+
     
 }

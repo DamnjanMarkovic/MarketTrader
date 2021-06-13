@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum SortingSelection {
+enum SortingSelection: Int {
     
-    case Alphabetically
-    case NONAlphabetically
-    case Default
+    case Alphabetically = 1
+    case NONAlphabetically = 2
+    case Default = 3
 
 }

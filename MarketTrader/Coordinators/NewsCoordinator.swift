@@ -22,7 +22,7 @@ class NewsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     func start() {
         
         vc.modalPresentationStyle = .fullScreen
-        vc.tabBarItem = UITabBarItem(title: "News", image: .actions, selectedImage: .checkmark)
+        vc.tabBarItem = UITabBarItem(title: "News", image: Constants.TAB_NEWS, selectedImage: Constants.TAB_NEWS_CHECKED)
         navigationController.pushViewController(vc, animated: true)
 
     }

@@ -10,7 +10,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     
     let mainCoordinator = MainCoordinator(navigationController: UINavigationController())
-    let marketCoordinator = MarketsCoordinator(navigationController: UINavigationController())
+    let marketCoordinator = SymbolCoordinator(navigationController: UINavigationController())
     let newsCoordinator = NewsCoordinator(navigationController: UINavigationController())
     let cvCoordinator = CVCoordinator(navigationController: UINavigationController())
     

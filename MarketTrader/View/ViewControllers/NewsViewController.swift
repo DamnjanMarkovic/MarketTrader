@@ -47,6 +47,7 @@ class NewsViewController: UIViewController {
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(NewsViewCell.self, forCellWithReuseIdentifier: Constants.NEWS_CELL_IDENTIFIER)
+        collectionView.register(NewsFirstVC.self, forCellWithReuseIdentifier: Constants.NEWS_FIRST_CELL_IDENTIFIER)
         collectionView.backgroundColor = UIColor.darkGray
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -70,12 +71,22 @@ extension NewsViewController: UICollectionViewDataSource {
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.NEWS_CELL_IDENTIFIER, for: indexPath as IndexPath) as! NewsViewCell
         
         let news = newsArticles[indexPath.row]
-        cell.setup(with: news)
-        return cell
+        
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.NEWS_FIRST_CELL_IDENTIFIER, for: indexPath as IndexPath) as! NewsFirstVC
+            cell.setup(with: news)
 
+            return cell
+        }
+        else {
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.NEWS_CELL_IDENTIFIER, for: indexPath as IndexPath) as! NewsViewCell
+            cell.setup(with: news)
+
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -84,8 +95,6 @@ extension NewsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let selectedCell: NewsViewCell = collectionView.cellForItem(at: indexPath)! as! NewsViewCell
         
         let news = newsArticles[indexPath.row]
         

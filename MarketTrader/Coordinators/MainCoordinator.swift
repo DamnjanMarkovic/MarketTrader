@@ -38,7 +38,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
             return
         }
 
-        if let marketViewController = fromViewController as? MarketsViewController {
+        if let marketViewController = fromViewController as? SymbolViewController {
             childDidFinish(marketViewController.coordinator)
         }
         if let newsViewController = fromViewController as? NewsViewController {
