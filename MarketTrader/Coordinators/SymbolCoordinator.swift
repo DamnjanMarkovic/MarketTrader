@@ -25,7 +25,7 @@ class SymbolCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         vc.tabBarItem = UITabBarItem(title: "Market", image: Constants.TAB_SYMBOL, selectedImage: Constants.TAB_SYMBOL_CHECKED)
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: Constants.IMAGEMARKETREFRESHBUTTON!.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(refreshList))
         
-        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(image: Constants.IMAGEMARKETSETTINGSBUTTON!.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(changeViewFormatting))
+        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(image: Constants.IMAGEMARKETSETTINGSBUTTON!.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleRefreshing))
         self.navigationController.pushViewController(vc, animated: true)
 
     }
@@ -41,9 +41,13 @@ class SymbolCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
             }
         }
     }
-    @objc func changeViewFormatting() {
-        
-        self.vc.presentFormatingSelectionMenu()
+    @objc func handleRefreshing() {
+        if (vc.shouldRefresh) {
+            vc.shouldRefresh = false
+        }
+        else {
+            vc.shouldRefresh = true
+        }
     }
     
 }

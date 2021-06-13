@@ -44,17 +44,27 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             tableView.reloadData()
         }
     }
+    
+    var shouldRefresh = false {
+        didSet {
+            UserDefaults.standard.set(shouldRefresh, forKey: "shouldRefresh")
+            tableView.reloadData()
+        }
+    }
+    
+    var selectionFormatingOriginal: Bool = true {
+        didSet {
+            UserDefaults.standard.set(selectionFormatingOriginal, forKey: "selectionFormatingOriginal")
+            tableView.reloadData()
+        }
+    }
+    
     var symbolList = [Symbol]()
     var selectedSymbol = Symbol()
     weak var coordinator: SymbolCoordinator?
     var symbolViewModel: SymbolViewModel = SymbolViewModel()
-    
-    var selectionFormatingOriginal: Bool = true {
-        didSet {
-            tableView.reloadData()
-            UserDefaults.standard.set(selectionFormatingOriginal, forKey: "selectionFormatingOriginal")
-        }
-    }
+    var refreshingInterval = Int.random(in: 4...30)
+
     
     let sortSymbolsVC = SortSymbolsVC()
     
@@ -81,6 +91,7 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
         
         selectionFormatingOriginal = UserDefaults.standard.bool(forKey: "selectionFormatingOriginal")
         sortSymbolsBy = SortingSelection(rawValue: UserDefaults.standard.integer(forKey: "sortSymbolsBy")) ?? SortingSelection.Default
+        shouldRefresh = UserDefaults.standard.bool(forKey: "shouldRefresh")
         symbolViewModel.reorderList(symbolList: symbolList, sortingSelection: sortSymbolsBy)
     }
 
@@ -109,10 +120,10 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
         sortSymbolsBy = SortingSelection(rawValue: button.tag)!
     }
     
-    func presentFormatingSelectionMenu() {
+    @objc func ChangeViewFormatting() {
+        
         symbolViewModel.presentFormatingSelectionMenu(symbolViewController: self)
     }
-
 }
 
     //UITableView Delegate Methods
@@ -150,9 +161,9 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.MARKET_CELL_IDENTIFIER) as! SymbolViewCell
             
             let symbol = symbolList[indexPath.row]
-            
-            cell.SetCellValues(symbol: symbol, selectionFormatOriginal: selectionFormatingOriginal)
-
+            refreshingInterval = 6
+            cell.SetCellValues(symbol: symbol, selectionFormatOriginal: selectionFormatingOriginal, refreshingInterval: refreshingInterval,
+                               shouldRefresh: shouldRefresh)
             
             return cell
         }
@@ -166,7 +177,7 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
 
             view.SetFormating(selectionFormatingOriginal: selectionFormatingOriginal)
             view.nameSymbolButton.addTarget(self, action: #selector(SortSymbolsFunc), for: .touchUpInside)
-            
+            view.lastHighLowQuoteButton.addTarget(self, action: #selector(ChangeViewFormatting), for: .touchUpInside)
             return view
         }
 
@@ -182,10 +193,11 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             tableView.deselectRow(at: indexPath, animated: true)
             
             let symbolSelected = symbolList[indexPath.row]
-            
             let vc = SymbolDetailsViewController()
-            vc.symbolSelected = symbolSelected
+            vc.symbol = symbolSelected
             vc.modalPresentationStyle = .fullScreen
+            vc.refreshingInterval = refreshingInterval
+            vc.shouldRefresh = shouldRefresh
             self.navigationController!.pushViewController(vc, animated: true)
             
             

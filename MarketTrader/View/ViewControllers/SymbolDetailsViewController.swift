@@ -17,8 +17,18 @@ extension SymbolDetailsViewController: SymbolDetailsDelegate {
 
 class SymbolDetailsViewController: UIViewController {
     
-    var symbolSelected = Symbol()
+    var symbol = Symbol()
     var symbolDetailsViewModel: SymbolDetailsViewModel = SymbolDetailsViewModel()
+    
+    var refreshingInterval = 1
+    var shouldRefresh = true
+    var previousChangePercentValue = 0.00
+    var previousChange = 0.00
+    
+    private var timer: Timer?
+    private var timerClearingLabelBackgrounds: Timer?
+    
+    
     
     var scrollViewer = UIScrollView()
     var idSymbolLabel = UILabel ()
@@ -43,19 +53,93 @@ class SymbolDetailsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.title = symbolSelected.name
+        self.title = symbol.name
         self.view.backgroundColor = .white
         symbolDetailsViewModel.delegate = self
+        createAllLabels()
+        configureContents()
+        SetCellValues(symbol: symbol, refreshingInterval: refreshingInterval, shouldRefresh: shouldRefresh)
 
     }
     
-    let labelOne: UILabel = {
-         let label = UILabel()
-         label.text = "Scroll Top"
-         label.backgroundColor = .red
-         label.translatesAutoresizingMaskIntoConstraints = false
-         return label
-     }()
+    func SetCellValues(symbol: Symbol, refreshingInterval: Int, shouldRefresh: Bool) {
+        
+        self.refreshingInterval = refreshingInterval
+        self.symbol = symbol
+        
+        if shouldRefresh {
+            
+            RefreshValues()
+            
+            timer = Timer.scheduledTimer(timeInterval: TimeInterval(refreshingInterval), target: self, selector: #selector(SymbolViewCell.RefreshValues), userInfo: nil, repeats: true)
+
+        }
+        
+        else {
+            
+            changeSymbolLabel.text =   "  Change:\t\(String(format:"%.2f", symbol.quote.change))%"
+            changePercentSymbolLabel.text = "  ChangePercent:\t\(String(format:"%.2f", symbol.quote.changePercent))"
+            
+        }
+    }
+    
+    @objc func ClearingLabelBackgrounds() {
+        
+        changeSymbolLabel.backgroundColor = .clear
+        
+        changePercentSymbolLabel.backgroundColor = .clear
+    }
+    
+    @objc func RefreshValues() {
+        
+        timerClearingLabelBackgrounds = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SymbolDetailsViewController.ClearingLabelBackgrounds), userInfo: nil, repeats: false)
+        
+        let changePercent = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.changePercent)
+        let change = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.change)
+        
+
+            if changePercent > 0 {
+                changeSymbolLabel.textColor = .green
+                changePercentSymbolLabel.textColor = .green
+            }
+            else if (changePercent < 0) {
+                changeSymbolLabel.textColor = .red
+                changePercentSymbolLabel.textColor = .red
+            }
+            
+            nameSymbolLabel.text = symbol.name
+            changeSymbolLabel.text =   "  Change:\t\(String(format:"%.2f", change))%"
+            changePercentSymbolLabel.text = "  ChangePercent:\t\(String(format:"%.2f",changePercent))"
+        
+        changeSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChange, newValue: change)
+        changePercentSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChangePercentValue, newValue: changePercent)
+        
+        
+        previousChangePercentValue = changePercent
+        previousChange = change
+
+    }
+    
+    
+    func SetValueColor(label: UILabel, arrivedValue: Double) -> UILabel {
+        
+        var finalColor = Constants.FONTCOLORHEADER
+        
+        if arrivedValue > 0 {
+            finalColor = .green
+        }
+        else if ( arrivedValue < 0) {
+            finalColor = .red
+        }
+        
+        let range = (label.text! as NSString).range(of: "\(arrivedValue)")
+        let mutableAttributedString = NSMutableAttributedString.init(string: label.text!)
+        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: finalColor, range: range)
+
+        label.attributedText = mutableAttributedString
+        return label
+    }
+    
     
 }
 
@@ -64,8 +148,7 @@ extension SymbolDetailsViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        createAllLabels()
-        configureContents()
+
     }
     
     
@@ -90,45 +173,21 @@ extension SymbolDetailsViewController {
     }
     
     func createAllLabels() {
-        idSymbolLabel = CreateLabel(name: "  ID:\t\(symbolSelected.id)")
-        tickerSymbolSymbolLabel = CreateLabel(name: "  TickerSymbol:\t\(symbolSelected.tickerSymbol)")
-        isinSymbolLabel = CreateLabel(name: "  Isin:\t\(symbolSelected.isin)")
-        currencySymbolLabel = CreateLabel(name: "  Currency:\t\(symbolSelected.currency)")
-        stockExchangeNameSymbolLabel = CreateLabel(name: "  StockExchangeName:\t\(symbolSelected.stockExchangeName)")
-        decorativeNameSymbolLabel = CreateLabel(name: "  DecorativeName:\t\(symbolSelected.decorativeName)")
-        lastSymbolLabel = CreateLabel(name: "  Last:\t\(symbolSelected.quote.last)")
-        highSymbolLabel = CreateLabel(name: "  High:\t\(symbolSelected.quote.high)")
-        lowSymbolSymbolLabel = CreateLabel(name: "  Low:\t\(symbolSelected.quote.low)")
-        volumeSymbolLabel = CreateLabel(name: "  Volume:\t\(symbolSelected.quote.volume)")
-        dateTimeSymbolLabel = CreateLabel(name: "  DateTime:\t\(symbolSelected.quote.dateTime)")
-        
-        changeSymbolLabel = CreateLabel(name: "  Change:\t\(symbolSelected.quote.change)")
-        changeSymbolLabel = SetValueColor(label: changeSymbolLabel, arrivedValue: symbolSelected.quote.change)
-        
-        changePercentSymbolLabel = CreateLabel(name: "  ChangePercent:\t\(symbolSelected.quote.changePercent)")
-        changePercentSymbolLabel = SetValueColor(label: changePercentSymbolLabel, arrivedValue: symbolSelected.quote.changePercent)
+        idSymbolLabel = CreateLabel(name: "  ID:\t\(symbol.id)")
+        tickerSymbolSymbolLabel = CreateLabel(name: "  TickerSymbol:\t\(symbol.tickerSymbol)")
+        isinSymbolLabel = CreateLabel(name: "  Isin:\t\(symbol.isin)")
+        currencySymbolLabel = CreateLabel(name: "  Currency:\t\(symbol.currency)")
+        stockExchangeNameSymbolLabel = CreateLabel(name: "  StockExchangeName:\t\(symbol.stockExchangeName)")
+        decorativeNameSymbolLabel = CreateLabel(name: "  DecorativeName:\t\(symbol.decorativeName)")
+        lastSymbolLabel = CreateLabel(name: "  Last:\t\(symbol.quote.last)")
+        highSymbolLabel = CreateLabel(name: "  High:\t\(symbol.quote.high)")
+        lowSymbolSymbolLabel = CreateLabel(name: "  Low:\t\(symbol.quote.low)")
+        volumeSymbolLabel = CreateLabel(name: "  Volume:\t\(symbol.quote.volume)")
+        dateTimeSymbolLabel = CreateLabel(name: "  DateTime:\t\(symbol.quote.dateTime)")
+        changeSymbolLabel = CreateLabel(name: "  Change:\t\(symbol.quote.change)")
+        changePercentSymbolLabel = CreateLabel(name: "  ChangePercent:\t\(symbol.quote.changePercent)")
         
     }
-    
-    func SetValueColor(label: UILabel, arrivedValue: Double) -> UILabel {
-        
-        var finalColor = Constants.FONTCOLORHEADER
-        
-        if arrivedValue > 0 {
-            finalColor = .green
-        }
-        else if ( arrivedValue < 0) {
-            finalColor = .red
-        }
-        
-        let range = (label.text! as NSString).range(of: "\(arrivedValue)")
-        let mutableAttributedString = NSMutableAttributedString.init(string: label.text!)
-        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: finalColor, range: range)
-
-        label.attributedText = mutableAttributedString
-        return label
-    }
-    
 
     
     func configureContents() {

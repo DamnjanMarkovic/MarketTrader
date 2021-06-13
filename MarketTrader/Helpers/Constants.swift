@@ -29,10 +29,11 @@ struct Constants {
     static let FONTSTYLE = UIFont.systemFont(ofSize: 20)
     static let FONTSTYLEHEADER = UIFont.systemFont(ofSize: 16)
     static let FONTCOLORHEADER = UIColor.black
+    static let FONTSTYLESYMBOL = UIFont.systemFont(ofSize: 14)
     static let FONTSTYLESYMBOLCHANGE = UIFont.systemFont(ofSize: 14)
     
     static let IMAGEMARKETREFRESHBUTTON =  UIImage(systemName: "r.square")
-    static let IMAGEMARKETSETTINGSBUTTON =  UIImage(systemName: "s.square")
+    static let IMAGEMARKETSETTINGSBUTTON =  UIImage(systemName: "timer")
     static let TAB_SYMBOL =  UIImage(systemName: "bahtsign.circle")
     static let TAB_NEWS =  UIImage(systemName: "dot.radiowaves.forward")
     static let TAB_CV =  UIImage(systemName: "person")
@@ -44,5 +45,7 @@ struct Constants {
     static let SMALLIMAGESIZE = ".jpg?preset=w220_q40"
     static let MIDDLEIMAGESIZE = ".jpg?preset=w320_q50"
     static let BIGIMAGESIZE = ".jpg?preset=w800_q70"
+    
+    
     
 }

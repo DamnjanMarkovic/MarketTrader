@@ -29,11 +29,11 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
 
         if selectionFormatingOriginal {
             changePercentBidAskQuoteLabel.text = "Chg %"
-            lastHighLowQuoteLabel.text = "Last"
+            lastHighLowQuoteButton.setTitle("Last", for: .normal)
         }
         else {
             changePercentBidAskQuoteLabel.text = "Bid"
-            lastHighLowQuoteLabel.text = "High"
+            lastHighLowQuoteButton.setTitle("High", for: .normal)
         }
     }
     
@@ -43,6 +43,9 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
         button.setTitle("Name ↓ ↑", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 5
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.setTitleColor(.blue, for: .normal)
         return button
     }()
     
@@ -53,7 +56,7 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
         label.adjustsFontSizeToFitWidth = true
         label.layer.cornerRadius = 2
         label.textColor = Constants.FONTCOLORHEADER
-        label.textAlignment = .right
+        label.textAlignment = .center
         label.backgroundColor = .clear
         label.text =  "Chg %"
         label.lineBreakMode = .byWordWrapping
@@ -62,19 +65,16 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
         label.numberOfLines = 0
         return label
     }()
-    let lastHighLowQuoteLabel: UILabel = {
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.layer.cornerRadius = 2
-        label.textColor = Constants.FONTCOLORHEADER
-        label.textAlignment = .center
-        label.backgroundColor = .clear
-        label.text =  "Last"
-        label.lineBreakMode = .byWordWrapping
-        label.font = Constants.FONTSTYLEHEADER
-        label.layer.borderColor = UIColor.darkGray.cgColor
-        label.numberOfLines = 0
-        return label
+    let lastHighLowQuoteButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 2
+        button.setTitleColor(.blue, for: .normal)
+        button.backgroundColor = .clear
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.setTitle("Last", for: .normal)
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        return button
     }()
     
 
@@ -84,11 +84,11 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
         
         nameSymbolButton.translatesAutoresizingMaskIntoConstraints = false
         changePercentBidAskQuoteLabel.translatesAutoresizingMaskIntoConstraints = false
-        lastHighLowQuoteLabel.translatesAutoresizingMaskIntoConstraints = false
+        lastHighLowQuoteButton.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(nameSymbolButton)
         contentView.addSubview(changePercentBidAskQuoteLabel)
-        contentView.addSubview(lastHighLowQuoteLabel)
+        contentView.addSubview(lastHighLowQuoteButton)
 
 
         NSLayoutConstraint.activate([
@@ -107,12 +107,12 @@ class SymbolHeaderView: UITableViewHeaderFooterView {
             
             
             
-            lastHighLowQuoteLabel.heightAnchor.constraint(equalToConstant: 30),
-            lastHighLowQuoteLabel.leadingAnchor.constraint(equalTo: changePercentBidAskQuoteLabel.trailingAnchor,
+            lastHighLowQuoteButton.heightAnchor.constraint(equalToConstant: 30),
+            lastHighLowQuoteButton.leadingAnchor.constraint(equalTo: changePercentBidAskQuoteLabel.trailingAnchor,
                constant: 5),
-            lastHighLowQuoteLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            lastHighLowQuoteLabel.widthAnchor.constraint(equalToConstant: 70),
-            lastHighLowQuoteLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            lastHighLowQuoteButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            lastHighLowQuoteButton.widthAnchor.constraint(equalToConstant: 70),
+            lastHighLowQuoteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     
     }

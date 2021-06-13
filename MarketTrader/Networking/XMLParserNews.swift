@@ -33,7 +33,6 @@ class XMLParserNews: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
             
-            //The current parsed tag is presented as `elementName` in this function
             if elementName == "NewsArticle" {
                 xmlDict = [:]
             } else {
@@ -43,7 +42,6 @@ class XMLParserNews: NSObject, XMLParserDelegate {
 
         func parser(_ parser: XMLParser, foundCharacters string: String) {
             
-            //The value of current parsed tag is presented as `string` in this function
             if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 if xmlDict[currentElement] == nil {
                        xmlDict.updateValue(string, forKey: currentElement)
@@ -52,15 +50,13 @@ class XMLParserNews: NSObject, XMLParserDelegate {
         }
 
         func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-            
-            //The closing tag is presented as `elementName` in this function
+
             if elementName == "NewsArticle" {
                 xmlDictArr.append(xmlDict)
             }
         }
 
         func parserDidEndDocument(_ parser: XMLParser) {
-            //Called when the parsing is complete
             parsingCompleted()
         }
         
