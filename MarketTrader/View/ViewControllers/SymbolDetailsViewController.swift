@@ -9,25 +9,35 @@ import UIKit
 
 extension SymbolDetailsViewController: SymbolDetailsDelegate {
     
-    func returnMarketSymbolsProtocolFunc(symbolList: [Symbol]) {
-
+    func UpdateSymbol(symbol: Symbol) {
+        self.symbol = symbol
     }
 
 }
 
 class SymbolDetailsViewController: UIViewController {
     
-    var symbol = Symbol()
+
+    var symbol = Symbol() {
+        didSet {
+            SetLabelValues(symbol: symbol)
+        }
+    }
     var symbolDetailsViewModel: SymbolDetailsViewModel = SymbolDetailsViewModel()
     
-    var refreshingInterval = 1
-    var shouldRefresh = true
     var previousChangePercentValue = 0.00
     var previousChange = 0.00
+    var previousBid = 0.00
+    var previousHigh = 0.00
     
-    private var timer: Timer?
     private var timerClearingLabelBackgrounds: Timer?
     
+    var shouldRefresh = false {
+        didSet {
+            symbolDetailsViewModel.HandleSymbolRefreshing(symbol: symbol, shouldRefresh: shouldRefresh, refreshingInterval: refreshingInterval)
+        }
+    }
+    var refreshingInterval = 1
     
     
     var scrollViewer = UIScrollView()
@@ -38,6 +48,7 @@ class SymbolDetailsViewController: UIViewController {
     var currencySymbolLabel = UILabel ()
     var stockExchangeNameSymbolLabel = UILabel ()
     var decorativeNameSymbolLabel = UILabel ()
+    var bidSymbolLabel = UILabel ()
     var lastSymbolLabel = UILabel ()
     var highSymbolLabel = UILabel ()
     var lowSymbolSymbolLabel = UILabel ()
@@ -58,89 +69,60 @@ class SymbolDetailsViewController: UIViewController {
         symbolDetailsViewModel.delegate = self
         createAllLabels()
         configureContents()
-        SetCellValues(symbol: symbol, refreshingInterval: refreshingInterval, shouldRefresh: shouldRefresh)
+        SetLabelValues(symbol: symbol)
 
     }
     
-    func SetCellValues(symbol: Symbol, refreshingInterval: Int, shouldRefresh: Bool) {
+    func SetLabelValues(symbol: Symbol) {
         
-        self.refreshingInterval = refreshingInterval
-        self.symbol = symbol
+        timerClearingLabelBackgrounds = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SymbolDetailsViewController.ClearingLabelBackgrounds), userInfo: nil, repeats: false)
         
-        if shouldRefresh {
-            
-            RefreshValues()
-            
-            timer = Timer.scheduledTimer(timeInterval: TimeInterval(refreshingInterval), target: self, selector: #selector(SymbolViewCell.RefreshValues), userInfo: nil, repeats: true)
+        let changePercent = symbol.quote.changePercent
+        let change = symbol.quote.change
+        let bid = symbol.quote.bid
+        let high = symbol.quote.high
 
+        if changePercent > 0 {
+            changeSymbolLabel.textColor = .green
+            changePercentSymbolLabel.textColor = .green
+            bidSymbolLabel.textColor = .green
+            highSymbolLabel.textColor = .green
+        }
+        else if (changePercent < 0) {
+            changeSymbolLabel.textColor = .red
+            changePercentSymbolLabel.textColor = .red
+            bidSymbolLabel.textColor = .red
+            highSymbolLabel.textColor = .red
         }
         
-        else {
-            
-            changeSymbolLabel.text =   "  Change:\t\(String(format:"%.2f", symbol.quote.change))%"
-            changePercentSymbolLabel.text = "  ChangePercent:\t\(String(format:"%.2f", symbol.quote.changePercent))"
-            
-        }
+        nameSymbolLabel.text = symbol.name
+        
+        changePercentSymbolLabel.text = "  ChangePercent:\t\(String(format:"%.2f",changePercent))"
+        changeSymbolLabel.text =   "  Change:\t\(String(format:"%.2f", change))%"
+        bidSymbolLabel.text =   "  Bid:\t\(String(format:"%.2f", bid))%"
+        highSymbolLabel.text =   "  High:\t\(String(format:"%.2f", high))%"
+        
+        changeSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChange, newValue: change)
+        changePercentSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChangePercentValue, newValue: changePercent)
+        bidSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousBid, newValue: bid)
+        highSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousHigh, newValue: high)
+        
+        
+        previousChangePercentValue = changePercent
+        previousChange = change
+        previousBid = bid
+        previousHigh = high
+        
     }
     
     @objc func ClearingLabelBackgrounds() {
         
         changeSymbolLabel.backgroundColor = .clear
-        
         changePercentSymbolLabel.backgroundColor = .clear
+        bidSymbolLabel.backgroundColor = .clear
+        highSymbolLabel.backgroundColor = .clear
+        
     }
-    
-    @objc func RefreshValues() {
-        
-        timerClearingLabelBackgrounds = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SymbolDetailsViewController.ClearingLabelBackgrounds), userInfo: nil, repeats: false)
-        
-        let changePercent = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.changePercent)
-        let change = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.change)
-        
-
-            if changePercent > 0 {
-                changeSymbolLabel.textColor = .green
-                changePercentSymbolLabel.textColor = .green
-            }
-            else if (changePercent < 0) {
-                changeSymbolLabel.textColor = .red
-                changePercentSymbolLabel.textColor = .red
-            }
-            
-            nameSymbolLabel.text = symbol.name
-            changeSymbolLabel.text =   "  Change:\t\(String(format:"%.2f", change))%"
-            changePercentSymbolLabel.text = "  ChangePercent:\t\(String(format:"%.2f",changePercent))"
-        
-        changeSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChange, newValue: change)
-        changePercentSymbolLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousChangePercentValue, newValue: changePercent)
-        
-        
-        previousChangePercentValue = changePercent
-        previousChange = change
-
-    }
-    
-    
-    func SetValueColor(label: UILabel, arrivedValue: Double) -> UILabel {
-        
-        var finalColor = Constants.FONTCOLORHEADER
-        
-        if arrivedValue > 0 {
-            finalColor = .green
-        }
-        else if ( arrivedValue < 0) {
-            finalColor = .red
-        }
-        
-        let range = (label.text! as NSString).range(of: "\(arrivedValue)")
-        let mutableAttributedString = NSMutableAttributedString.init(string: label.text!)
-        mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: finalColor, range: range)
-
-        label.attributedText = mutableAttributedString
-        return label
-    }
-    
-    
 }
 
 
@@ -150,9 +132,6 @@ extension SymbolDetailsViewController {
         super.viewDidLayoutSubviews()
 
     }
-    
-    
-
     
     func CreateLabel(name: String) -> UILabel {
         let label = UILabel()
@@ -181,6 +160,7 @@ extension SymbolDetailsViewController {
         decorativeNameSymbolLabel = CreateLabel(name: "  DecorativeName:\t\(symbol.decorativeName)")
         lastSymbolLabel = CreateLabel(name: "  Last:\t\(symbol.quote.last)")
         highSymbolLabel = CreateLabel(name: "  High:\t\(symbol.quote.high)")
+        bidSymbolLabel = CreateLabel(name: "  Bid:\t\(symbol.quote.bid)")
         lowSymbolSymbolLabel = CreateLabel(name: "  Low:\t\(symbol.quote.low)")
         volumeSymbolLabel = CreateLabel(name: "  Volume:\t\(symbol.quote.volume)")
         dateTimeSymbolLabel = CreateLabel(name: "  DateTime:\t\(symbol.quote.dateTime)")
@@ -204,6 +184,7 @@ extension SymbolDetailsViewController {
         scrollViewer.addSubview(decorativeNameSymbolLabel)
         scrollViewer.addSubview(lastSymbolLabel)
         scrollViewer.addSubview(highSymbolLabel)
+        scrollViewer.addSubview(bidSymbolLabel)
         scrollViewer.addSubview(lowSymbolSymbolLabel)
         scrollViewer.addSubview(volumeSymbolLabel)
         scrollViewer.addSubview(dateTimeSymbolLabel)
@@ -256,11 +237,16 @@ extension SymbolDetailsViewController {
             highSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
             highSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
             highSymbolLabel.topAnchor.constraint(equalTo: lastSymbolLabel.bottomAnchor, constant: 5),
+            
+            bidSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
+            bidSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
+            bidSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
+            bidSymbolLabel.topAnchor.constraint(equalTo: highSymbolLabel.bottomAnchor, constant: 5),
 
             lowSymbolSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
             lowSymbolSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),
             lowSymbolSymbolLabel.heightAnchor.constraint(equalToConstant: 30),
-            lowSymbolSymbolLabel.topAnchor.constraint(equalTo: highSymbolLabel.bottomAnchor, constant: 5),
+            lowSymbolSymbolLabel.topAnchor.constraint(equalTo: bidSymbolLabel.bottomAnchor, constant: 5),
 
             volumeSymbolLabel.leadingAnchor.constraint(equalTo: scrollViewer.leadingAnchor, constant: 5),
             volumeSymbolLabel.widthAnchor.constraint(equalToConstant: widthLabel),

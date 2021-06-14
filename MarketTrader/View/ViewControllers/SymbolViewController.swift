@@ -24,7 +24,7 @@ extension SymbolViewController: SymbolDelegate {
         }
     }
     
-    func reOrderSymbolList(symbolList: [Symbol]) {
+    func UpdateSymbolList(symbolList: [Symbol]) {
         DispatchQueue.main.async {
             self.symbolList = symbolList
             self.tableView.reloadData()
@@ -48,6 +48,7 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
     var shouldRefresh = false {
         didSet {
             UserDefaults.standard.set(shouldRefresh, forKey: "shouldRefresh")
+            HandleListRefreshing(shouldRefresh: shouldRefresh)
             tableView.reloadData()
         }
     }
@@ -95,6 +96,11 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
         symbolViewModel.reorderList(symbolList: symbolList, sortingSelection: sortSymbolsBy)
     }
 
+    func HandleListRefreshing(shouldRefresh: Bool){
+  
+        symbolViewModel.RefreshList(symbolList: symbolList, shouldRefresh: shouldRefresh)
+
+    }
     
     func getMarketSymbols() {
         symbolViewModel.returnMarketSymbols() { [self] success in
@@ -133,13 +139,10 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             
             tableView.delegate = self
             tableView.dataSource = self
-            
             tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.separatorStyle = .none
-            
             tableStackView.addSubview(tableView)
             tableView.rowHeight = view.frame.height / 20
-            
             tableView.register(SymbolHeaderView.self, forHeaderFooterViewReuseIdentifier: Constants.MARKET_HEADER_IDENTIFIER)
             tableView.register(SymbolViewCell.self, forCellReuseIdentifier: Constants.MARKET_CELL_IDENTIFIER)
             tableView.delegate = self
@@ -148,6 +151,9 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             tableStackView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height)
             view.addSubview(tableStackView)
         }
+        
+        
+        
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
 
@@ -159,11 +165,8 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.MARKET_CELL_IDENTIFIER) as! SymbolViewCell
-            
             let symbol = symbolList[indexPath.row]
-            refreshingInterval = 6
-            cell.SetCellValues(symbol: symbol, selectionFormatOriginal: selectionFormatingOriginal, refreshingInterval: refreshingInterval,
-                               shouldRefresh: shouldRefresh)
+            cell.SetCellValues(symbol: symbol, selectionFormatOriginal: selectionFormatingOriginal)
             
             return cell
         }
@@ -195,9 +198,10 @@ class SymbolViewController: UIViewController, UIPopoverPresentationControllerDel
             let symbolSelected = symbolList[indexPath.row]
             let vc = SymbolDetailsViewController()
             vc.symbol = symbolSelected
-            vc.modalPresentationStyle = .fullScreen
             vc.refreshingInterval = refreshingInterval
             vc.shouldRefresh = shouldRefresh
+            vc.refreshingInterval = refreshingInterval
+            vc.modalPresentationStyle = .fullScreen
             self.navigationController!.pushViewController(vc, animated: true)
             
             

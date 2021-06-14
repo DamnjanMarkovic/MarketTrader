@@ -42,12 +42,8 @@ class SymbolCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
     }
     @objc func handleRefreshing() {
-        if (vc.shouldRefresh) {
-            vc.shouldRefresh = false
-        }
-        else {
-            vc.shouldRefresh = true
-        }
+        
+        vc.shouldRefresh.toggle()
     }
     
 }

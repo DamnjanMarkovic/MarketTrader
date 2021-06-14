@@ -12,8 +12,6 @@ class SymbolViewCell: UITableViewCell {
     var symbol = Symbol()
     var selectionFormatOriginal = false
     
-    
-    
     var nameSymbolLabel = UILabel ()
     var changePercentBidAskQuoteLabel = UILabel ()
     var lastHighLowQuoteLabel = UILabel ()
@@ -22,9 +20,7 @@ class SymbolViewCell: UITableViewCell {
     var previousBidValue = 0.00
     var previousHighValue = 0.00
     
-    var refreshingInterval = 1
     
-    private var timer: Timer?
     private var timerClearingLabelBackgrounds: Timer?
     
     
@@ -44,65 +40,16 @@ class SymbolViewCell: UITableViewCell {
     }
     
     
-    func SetCellValues(symbol: Symbol, selectionFormatOriginal: Bool, refreshingInterval: Int, shouldRefresh: Bool) {
+    func SetCellValues(symbol: Symbol, selectionFormatOriginal: Bool) {
         
-        self.refreshingInterval = refreshingInterval
+        
         self.selectionFormatOriginal = selectionFormatOriginal
         self.symbol = symbol
         
-        if shouldRefresh {
-            
-            RefreshValues()
-            
-            timer = Timer.scheduledTimer(timeInterval: TimeInterval(refreshingInterval), target: self, selector: #selector(SymbolViewCell.RefreshValues), userInfo: nil, repeats: true)
-            
-
-
-        }
-        
-        else {
-
-            if selectionFormatOriginal {
-                
-                if symbol.quote.changePercent > 0 {
-                    changePercentBidAskQuoteLabel.textColor = .green
-                }
-                else if (symbol.quote.changePercent == 0) {
-                }
-                else {
-                    changePercentBidAskQuoteLabel.textColor = .red
-                }
-                
-                nameSymbolLabel.text = symbol.name
-                changePercentBidAskQuoteLabel.text =   "\(String(format:"%.2f", symbol.quote.changePercent))%"
-                lastHighLowQuoteLabel.text = "\(String(format:"%.2f",symbol.quote.last))"
-            }
-            
-            else {
-                nameSymbolLabel.text = symbol.name
-                changePercentBidAskQuoteLabel.text = "\(String(format:"%.2f",symbol.quote.bid))"
-                lastHighLowQuoteLabel.text = "\(String(format:"%.2f",symbol.quote.high))"
-            }
-        }
-        
-    }
-    
-    @objc func ClearingLabelBackgrounds() {
-        
-        changePercentBidAskQuoteLabel.backgroundColor = .clear
-        
-        lastHighLowQuoteLabel.backgroundColor = .clear
-    }
-    
-    
-    @objc func RefreshValues() {
-        
-        timerClearingLabelBackgrounds = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SymbolViewCell.ClearingLabelBackgrounds), userInfo: nil, repeats: false)
-
-        let changePercent = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.changePercent)
-        let last = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.last)
-        let bid = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.bid)
-        let high = RefreshHelpers.GetChangedValueDouble(value: symbol.quote.high)
+        let changePercent = symbol.quote.changePercent
+        let last = symbol.quote.last
+        let bid = symbol.quote.bid
+        let high = symbol.quote.high
         
         if selectionFormatOriginal {
             
@@ -128,28 +75,25 @@ class SymbolViewCell: UITableViewCell {
             changePercentBidAskQuoteLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousBidValue, newValue: bid)
             lastHighLowQuoteLabel.backgroundColor = RefreshHelpers.GetLabelBackgroundColor(previosValue: previousHighValue, newValue: last)
             
-            
-            
         }
         
         previousChangePercentValue = changePercent
         previousLastValue = last
         previousBidValue = bid
         previousHighValue = high
-
+        
+        timerClearingLabelBackgrounds = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SymbolViewCell.ClearingLabelBackgrounds), userInfo: nil, repeats: false)
+        
+        
     }
     
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    @objc func ClearingLabelBackgrounds() {
+        
+        changePercentBidAskQuoteLabel.backgroundColor = .clear
+        lastHighLowQuoteLabel.backgroundColor = .clear
+        
     }
 
-    override func prepareForReuse() {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
-    }
 }
 
 
